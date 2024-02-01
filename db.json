@@ -1,18 +1,13 @@
 {
   "todos": [
     {
-      "id": "9f34",
-      "subject": "dfdf",
-      "completed": true
-    },
-    {
-      "id": "8a5e",
-      "subject": "문제가 ",
+      "id": "9a67",
+      "subject": "맥북 프로에서 진행",
       "completed": false
     },
     {
-      "id": "191b",
-      "subject": "뭐에요?",
+      "id": "199d",
+      "subject": "맥북 프로 깃 테스트",
       "completed": false
     }
   ]
