@@ -9,6 +9,7 @@
       >
       <hr />
     <TodoSimpleForm @add-todo="addTodo"/>
+    <div style="color:red;">{{ error }}</div>
     
     <div v-if="!filteredTodos.length">
       There is nothing to display
@@ -39,22 +40,60 @@ export default {
       textDecoration: 'line-through',
       color: 'gray'
     }
+    const error = ref('');
+    const  getTodos = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/todos');
+        todos.value = res.data;
+      } catch(err) {
+        console.log(err)
+        error.value = 'something went wrong.';
+      }
+    }
+
+    getTodos();
     
-    const addTodo = (todo) => {
+    const addTodo = async (todo) => {
       //데이터베이스에 투두를 저장하기
-      axios.post('http://localhost:3000/todos', {
-        subject: todo.subject,
-        completed: todo.completed,
-      })
-      todos.value.push(todo);
+      error.value='';
+      try {
+        const res = await axios.post('http://localhost:3000/todos', {
+          subject: todo.subject,
+          completed: todo.completed,
+        });
+        todos.value.push(res.data);
+      } catch (err) {
+        console.log(err)
+        error.value = 'something went wrong.';
+      }
     };
 
-    const toggleTodo = (index) => {
-      todos.value[index].completed = !todos.value[index].completed
-    };
+    const toggleTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+      try{
+        await axios.patch('http://localhost:3000/todos/' + id, {
+          completed: !todos.value[index].completed
+        });
+        todos.value[index].completed = !todos.value[index].completed
+      } catch(err) {
+        console.log(err)
+        error.value = 'something went wrong.';
+      }
+      }
+  
 
-    const deleteTodo = (index) => {
-      todos.value.splice(index, 1);      
+    const deleteTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+      try{
+        await axios.delete('http://localhost:3000/todos/' + id);
+        todos.value.splice(index, 1);    
+
+      } catch (err) {
+        console.log(err);
+        error.value = 'something went wrong.';
+      }
     };
 
     const searchText = ref('');
@@ -68,12 +107,6 @@ export default {
     })
   
 
-    // const greeting = (name) => {
-    //   return 'Hello, ' + name;
-    // };
-
-    // const greet = greeting(name);
-
     return {
       addTodo,
       todos,
@@ -82,6 +115,7 @@ export default {
       toggleTodo,
       searchText,
       filteredTodos,
+      error,
     }
 
   },
