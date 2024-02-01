@@ -14,12 +14,24 @@
     <div v-if="!filteredTodos.length">
       There is nothing to display
     </div>
-    <TodoList 
+    <TodoList
     :todos="filteredTodos" 
     @toggle-todo="toggleTodo" 
     @delete-todo="deleteTodo"
     />
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+
+        <li class="page-item" v-for="page in numberOfTodos" :key="page">
+          <a class="page-link" href="#">{{ page }}</a>
+        </li>
+        
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav>
   </div>
+  {{ numberOfPages }}
   
 </template>
 
@@ -41,9 +53,20 @@ export default {
       color: 'gray'
     }
     const error = ref('');
+    const numberOfTodos = ref(0);
+    const limit = 5;
+    const page = ref(1);
+ 
+    const numberOfPages = computed(() => {
+      return Math.ceil(numberOfTodos.value/limit);
+    });
+
+
+
     const  getTodos = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/todos');
+        const res = await axios.get(`http://localhost:3000/todos?_page=${page.value}&_limit=${limit}`);
+        numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
       } catch(err) {
         console.log(err)
@@ -116,6 +139,7 @@ export default {
       searchText,
       filteredTodos,
       error,
+      numberOfPages,
     }
 
   },
