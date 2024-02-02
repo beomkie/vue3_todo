@@ -6,6 +6,7 @@
       type="text" 
       v-model="searchText"
       search="Type New To do"
+      placeholder="Search"
       >
       <hr />
     <TodoSimpleForm @add-todo="addTodo"/>
@@ -19,11 +20,17 @@
     @toggle-todo="toggleTodo" 
     @delete-todo="deleteTodo"
     />
+    <hr />
     <nav aria-label="Page navigation example">
       <ul class="pagination">
         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 
-        <li class="page-item" v-for="page in numberOfTodos" :key="page">
+        <li 
+          class="page-item" 
+          :class="currentpage == page ? 'active' : ''"
+          v-for="page in 3" 
+          :key="page"
+        >
           <a class="page-link" href="#">{{ page }}</a>
         </li>
         
@@ -55,15 +62,16 @@ export default {
     const error = ref('');
     const numberOfTodos = ref(0);
     const limit = 5;
-    const page = ref(1);
+    const currentpage = ref(1);
         
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value/limit);
     });
 
+
     const  getTodos = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/todos?_page=${page.value}&_limit=${limit}`);
+        const res = await axios.get(`http://localhost:3000/todos?_page=${currentpage.value}&_limit=${limit}`);
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
         console.log(res.headers);
@@ -139,6 +147,7 @@ export default {
       filteredTodos,
       error,
       numberOfPages,
+      currentpage,
     }
 
   },
