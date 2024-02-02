@@ -23,7 +23,7 @@
     <hr />
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li v-if="currentpage !== 1" class="page-item"><a class="page-link" @click="getTodos(currentpage-1)" href="#">Previous</a></li>
 
         <li 
           class="page-item" 
@@ -34,16 +34,14 @@
           <a class="page-link" href="#">{{ page }}</a>
         </li>
         
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        <li v-if=" numberOfPages !== currentpage" class="page-item"><a class="page-link" @click="getTodos(currentpage+1)" href="#">Next</a></li>
       </ul>
     </nav>
-  </div>
-  {{ numberOfPages }}
-  
+  </div>  
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
 import axios from 'axios';
@@ -63,18 +61,23 @@ export default {
     const numberOfTodos = ref(0);
     const limit = 5;
     const currentpage = ref(1);
+
+    watchEffect(() => {
+      console.log(currentpage.value);
+      console.log(numberOfTodos.value);
+    })
         
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value/limit);
     });
 
-
+    // x-total-count가 헤더에 존재하지 않는 것 같음. 작동하지 않음
     const  getTodos = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/todos?_page=${currentpage.value}&_limit=${limit}`);
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
-        console.log(res.headers);
+        console.log('All Headers:', res.headers);
 
       } catch(err) {
         error.value = 'something went wrong.';
