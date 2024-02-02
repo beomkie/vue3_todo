@@ -56,25 +56,25 @@ export default {
     const numberOfTodos = ref(0);
     const limit = 5;
     const page = ref(1);
- 
+        
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value/limit);
     });
-
-
 
     const  getTodos = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/todos?_page=${page.value}&_limit=${limit}`);
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
+        console.log(res.headers);
+
       } catch(err) {
-        console.log(err)
         error.value = 'something went wrong.';
       }
     }
 
     getTodos();
+    console.log(numberOfTodos.value);
     
     const addTodo = async (todo) => {
       //데이터베이스에 투두를 저장하기
@@ -86,7 +86,6 @@ export default {
         });
         todos.value.push(res.data);
       } catch (err) {
-        console.log(err)
         error.value = 'something went wrong.';
       }
     };
