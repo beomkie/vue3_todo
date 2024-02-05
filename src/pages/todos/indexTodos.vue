@@ -1,6 +1,16 @@
 <template>
-  <div>
+  <div class="d-flex justify-content-between mb-3">
     <h2>To Do List</h2>
+    <button 
+      class="btn btn-primary"
+      @click="movetoCreatepage"
+    >
+    Create Todo
+  </button>
+  </div>
+
+  <div>
+    
     <input
       class="form-control"
       type="text" 
@@ -9,7 +19,6 @@
       placeholder="Search"
       >
       <hr />
-    <TodoSimpleForm @add-todo="addTodo"/>
     <div style="color:red;">{{ error }}</div>
     
     <div v-if="!filteredTodos.length">
@@ -47,20 +56,20 @@
 
 <script>
 import { ref, computed, watchEffect } from 'vue';
-import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import axios from 'axios';
 import toast from '@/components/toastAlert.vue'
 import { useToast } from '@/composables/toast';
+import { useRouter } from 'vue-router';
 
 
 export default {
   components: {
-    TodoSimpleForm,
     TodoList,
     toast,
   },
   setup() {
+    const router = useRouter();
     const todos = ref([]);
     const todoStyle = {
       textDecoration: 'line-through',
@@ -73,20 +82,7 @@ export default {
       toastAlertType,
       triggerToast,
     } = useToast();
-    // const showToast = ref(false);
-    // const toastMessage = ref('');
-    // const toastAlertType = ref('');
-    // const toastTimeout = ref(null);
-    // const triggerToast = (message, type) => {
-    //         toastMessage.value = message;
-    //         toastAlertType.value = type;
-    //         showToast.value = true;
-    //         toastTimeout.value = setTimeout(() => {
-    //             toastMessage.value = '';
-    //             toastAlertType.value = '';
-    //             showToast.value =false;                
-    //         }, 5000)
-    //     };
+
 
     const error = ref('');
     const numberOfTodos = ref(0);
@@ -149,6 +145,12 @@ export default {
       }
       }
 
+    const movetoCreatepage = () => {
+      router.push({
+        name: 'TodoCreate',
+      })
+    };
+
     let timeout = null;
     const searchTodo = () => {
       clearTimeout(timeout);
@@ -196,6 +198,7 @@ export default {
       searchTodo,
       toastMessage,
       toastAlertType,
+      movetoCreatepage,
     }
 
   },
