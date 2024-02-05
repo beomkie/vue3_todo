@@ -3,7 +3,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5">Delete Todo</h1>
+            <h1 class="modal-title fs-5">
+                <slot></slot>
+            </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" @click="onClose"></button>
         </div>
         <div class="modal-body">
@@ -20,6 +22,7 @@
             <button 
                 type="button" 
                 class="btn btn-danger"
+                @click="onDelete"
             >
             Delete
             </button>
@@ -34,9 +37,13 @@ export default {
     setup(props, { emit }) {
         const onClose = () => {
             emit('close');
+        };
+        const onDelete = () => {
+            emit('delete');
         }
         return {
             onClose,
+            onDelete,
         }
     }
 
