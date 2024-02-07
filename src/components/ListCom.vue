@@ -1,16 +1,16 @@
 <template>
     <div
-      v-for="(item) in items"
+      v-for="(item, index) in items"
       :key="item.id"
       class="card mt-3"
     >
-        <slot :item="item"></slot>
+        <slot :item="item" :index="index"></slot>
     </div>
 </template>
 
 <script>
 export default {
-    porps: {
+    props: {
         items: {
             type: Array,
             required: true,

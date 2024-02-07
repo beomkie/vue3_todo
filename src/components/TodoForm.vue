@@ -8,7 +8,7 @@
     >
         <div class="row">
             <div class="col-6">
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label>Subject</label>
                     <input 
                         v-model="todo.subject" 
@@ -21,7 +21,13 @@
                     >
                     {{ subjectError }}
                     </div>
-                </div>
+                </div> -->
+
+                <Input 
+                    label="Subject"
+                    v-model:subject="todo.subject"
+                    :error="subjectError"
+                />
             </div>
             <div v-if="editing" class="col-6">
                 <div class="form-group">
@@ -81,11 +87,13 @@ import { ref, computed } from 'vue';
 import isequal from 'lodash/isEqual';
 import toast from '@/components/toastAlert.vue'
 import { useToast } from '@/composables/toast';
+import Input from '@/components/inputStyle.vue';
 
 
 export default {
     components: {
         toast,
+        Input,
     },
     props: {
         editing: {

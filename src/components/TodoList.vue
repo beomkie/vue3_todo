@@ -7,7 +7,7 @@
     <List
       :items="todos"  
     >
-      <template #default="{ item }">
+      <template #default="{ item, index }">
         <div 
           class="card-body p-2 d-flex align-items-center"
           style="cursor:pointer"
