@@ -17,6 +17,7 @@
 </template>
 
 <script>
+
 export default {
     props: {
         label: {
@@ -32,11 +33,11 @@ export default {
             required: true,
         }
     },
-    setup(props, { emit }) {
-         const onInput = (e) => {
+    setup( props, { emit }) {
+        const onInput = (e) => {
             emit('update:subject', e.target.value)
 
-         }
+        }
 
          return {
             onInput,
