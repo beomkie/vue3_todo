@@ -1,11 +1,27 @@
 <template>
-  <div 
-    class="alert alert-success toast-box" 
-    :class="`alert-${type}`"
-    role="alert"
-    >
-    {{ message }}
-  </div>
+    <div class="toast-box">
+        <div 
+            class="alert" 
+            :class="`alert-${type}`"
+            role="alert"
+            >
+            {{ message }}
+        </div>
+        <div 
+            class="alert" 
+            :class="`alert-${type}`"
+            role="alert"
+            >
+            {{ message }}
+        </div>
+        <div 
+            class="alert" 
+            :class="`alert-${type}`"
+            role="alert"
+            >
+            {{ message }}
+        </div>
+    </div>
 </template>
 
 <script>

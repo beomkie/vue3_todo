@@ -71,13 +71,6 @@
         Cancel
         </button>
     </form>
-    <transition name="fade">
-        <toast 
-            v-if="showToast"
-            :message="toastMessage"
-            :type="toastAlertType"
-        />
-    </transition>   
 </template>
 
 <script>
@@ -85,14 +78,12 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from '@/axios';
 import { ref, computed } from 'vue';
 import isequal from 'lodash/isEqual';
-import toast from '@/components/toastAlert.vue'
 import { useToast } from '@/composables/toast';
 import Input from '@/components/inputStyle.vue';
 
 
 export default {
     components: {
-        toast,
         Input,
     },
     props: {
@@ -115,10 +106,10 @@ export default {
         const todoId = route.params.id;
 
         const {
-        showToast,
-        toastMessage,
-        toastAlertType,
-        triggerToast,
+            showToast,
+            toastMessage,
+            toastAlertType,
+            triggerToast,
         } = useToast();
 
 
