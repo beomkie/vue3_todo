@@ -156,7 +156,7 @@ export default {
       error.value = '';
       try{
         await axios.delete('todos/' + id);
-a
+
         getTodos();
       } catch (err) {
         console.log(err);
