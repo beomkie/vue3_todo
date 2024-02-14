@@ -1,3 +1,4 @@
+<!-- Todo 리스트 블럭들에 대한 컴포넌트 -->
 <template>
   <!-- <div
       v-for="(todo, index) in todos"

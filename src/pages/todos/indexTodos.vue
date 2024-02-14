@@ -1,3 +1,4 @@
+<!-- Todo 리스트 보여주는 페이지 리스트업 페이지 -->
 <template>
   <div class="d-flex justify-content-between mb-3">
     <h2>To Do List</h2>
@@ -155,7 +156,7 @@ export default {
       error.value = '';
       try{
         await axios.delete('todos/' + id);
-
+a
         getTodos();
       } catch (err) {
         console.log(err);
